@@ -2,9 +2,16 @@ import axios from 'axios';
 
 const TOKEN_KEY = 'ipl.token';
 
-// All API calls go to /api. Vite (dev) or nginx (Docker) forwards them to Express.
+// Backend origin, e.g. https://ipl-team-updates-realtime-notification.onrender.com
+// (set via VITE_API_URL at build time). Trailing "/" or "/api" is tolerated and stripped.
+// Empty → same origin: Vite (dev) or nginx (Docker) forwards /api to Express.
+export const API_ORIGIN = ((import.meta.env.VITE_API_URL as string | undefined) ?? '')
+  .trim()
+  .replace(/\/+$/, '')
+  .replace(/\/api$/, '');
+
 export const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL ?? '/api',
+  baseURL: `${API_ORIGIN}/api`,
   timeout: 10000,
 });
 

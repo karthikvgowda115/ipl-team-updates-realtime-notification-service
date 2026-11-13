@@ -10,6 +10,8 @@
  *     except for auth failures (4001/4002) where retrying the same token is pointless.
  */
 
+import { API_ORIGIN } from '../api/client';
+
 export type ConnStatus = 'idle' | 'connecting' | 'open' | 'reconnecting';
 export type Channel = 'score';
 
@@ -24,6 +26,8 @@ const MAX_BACKOFF_MS = 30_000;
 function socketUrl(): string {
   const fromEnv = import.meta.env.VITE_WS_URL as string | undefined;
   if (fromEnv) return fromEnv;
+  // Deployed backend: https://host → wss://host/api/ws (http → ws for local testing).
+  if (API_ORIGIN) return `${API_ORIGIN.replace(/^http/, 'ws')}/api/ws`;
   const proto = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
   return `${proto}//${window.location.host}/api/ws`;
 }
