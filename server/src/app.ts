@@ -16,7 +16,7 @@ const app = express();
 // private-network proxies, so the login limiter sees real client IPs.
 app.set('trust proxy', 'loopback, linklocal, uniquelocal');
 
-app.use(cors({ origin: env.clientUrl, credentials: true }));
+app.use(cors({ origin: env.clientUrls, credentials: true }));
 app.use(express.json({ limit: '10kb' }));
 
 // /health for direct checks (Docker healthcheck, curl);
