@@ -1,0 +1,9 @@
+{
+  // Type-checks the tests together with the source (the build config only covers src/).
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "rootDir": ".",
+    "noEmit": true
+  },
+  "include": ["src/**/*.ts", "tests/**/*.ts", "vitest.config.ts"]
+}

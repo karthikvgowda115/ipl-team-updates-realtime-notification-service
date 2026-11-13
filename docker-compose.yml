@@ -1,0 +1,21 @@
+# Frontend + backend only. MongoDB is hosted on MongoDB Atlas (no Mongo container).
+services:
+  server:
+    build: ./server
+    container_name: ipl-server
+    env_file: .env
+    environment:
+      NODE_ENV: production
+      PORT: 5000
+    ports:
+      - "5000:5000"
+    restart: unless-stopped
+
+  client:
+    build: ./client
+    container_name: ipl-client
+    ports:
+      - "3000:80"
+    depends_on:
+      - server
+    restart: unless-stopped
